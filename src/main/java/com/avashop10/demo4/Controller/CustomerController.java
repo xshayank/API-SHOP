@@ -1,5 +1,6 @@
 package com.avashop10.demo4.Controller;
 
+import com.avashop10.demo4.DTO.ProductResponse;
 import com.avashop10.demo4.Entity.Customer;
 import com.avashop10.demo4.DTO.CustomerRequest;
 import com.avashop10.demo4.DTO.CustomerResponse;
@@ -7,6 +8,7 @@ import com.avashop10.demo4.Repository.CustomerRepository;
 import com.avashop10.demo4.Error.CustomerNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -7,7 +7,12 @@ import com.avashop10.demo4.Repository.ProductRepository;
 import com.avashop10.demo4.Error.ProductNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +59,18 @@ public class ProductController {
         Product saved = productRepository.save(p);
         return new ProductResponse(saved.getId(), saved.getName(), saved.getPrice());
     }
+
+@GetMapping("/paged")
+public Page<ProductResponse> pagedProducts(@PageableDefault(size = 10) Pageable pageable) {
+    return productRepository.findAll(pageable)
+            .map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice()));
+}
+
+@GetMapping("/search")
+public Page<ProductResponse> searchProducts(@RequestParam String name, @PageableDefault(size = 10) Pageable pageable) {
+    return productRepository.findByNameContainingIgnoreCase(name, pageable)
+            .map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice()));
+}
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
